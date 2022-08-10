@@ -1,39 +1,42 @@
 const app = Vue.createApp({
   data() {
-    return { 
-      enteredGoalValue: '',
-      goals1:{
-        name:'',
-        status:''
-      },
-
-      result:[],
-      // afterFilterReslt:[...filteredArray]
+    return {
+      searchString: '',
+        inputTask:'',
+        
+        todos: [
+            {name:'shahed', status: false},
+            {name:'ahamed', status: false},
+            {name:'saiem', status: true},
+        ]
      };
   },
   methods: {
-    addGoal() {
-      if(this.goals1.name !=='' && this.goals1.status !==''){
-        this.result.unshift({name:this.goals1.name, status:this.goals1.status})
-      }
-      
-    },
-    removeGoal(inx){
-      this.result.splice(inx,1)
-    },
-    changeStatus(){
-      this.result.status= 'true'
-    }
-  },
-  computed:{
-    filteredArray(){
-      this.result.filter((value)=>{
-        value.name.toLowerCase().includes(this.enteredGoalValue)
-      })
-    }
-    
 
-  }
+    addTask() {
+      if(this.inputTask == ''){
+         alert("task can't be null")
+          return
+      }
+      const todo = { name: this.inputTask, status: false};
+      this.todos.unshift(todo);
+      this.inputTask = '';
+  },
+  deleteTask(index) {
+    this.todos.splice(index, 1);
+},
+    changeStatus(){
+      this.todos.status = !this.todos.status
+    },
+  },
+  computed: {
+    filteredTodos() {
+        return this.todos.filter(todo=> {
+            return todo.name.toLowerCase().includes(this.searchString) 
+          }
+        );
+    }
+}
 
 });
 

@@ -17,15 +17,18 @@
       <h1>Vue Course Goals</h1>
     </header>
     <section id="user-goals">
-      <input type="text" v-model="enteredGoalValue">
+       <input type="text" v-model="searchString" >
       <h2>My course goals</h2>
-      <input type="text" v-model="goals1.name"/>
-      <input type="text" v-model="goals1.status"/>
-      <button  @click="addGoal()">Add Goal</button>
-      <p v-if="result.length === 0">No goals have been added yet - please start adding some!</p>
-      <ul >
-        <li v-for="(goal,index) in result" :key="goal" style="display: flex; justify-content: space-between;"><span><button @click="changeStatus(index)">change status</button></span>{{goal.name}}-{{goal.status}}<span @click="removeGoal(index)" style="color:white;">x</span> </li>
-        
+      <input type="text" v-model="inputTask"/>
+      <button  @click="addTask" >Add Goal</button>
+
+      <ul>
+        <li v-for="(todo, index) in filteredTodos" :key="todo">
+          <input type="checkbox" v-model="todo.status">
+          <span>{{todo.name}}</span>
+          <span>{{todo.status}}</span>
+          <button  @click="deleteTask(index)">Remove</button>
+        </li>
       </ul>
     </section>
   </body>
