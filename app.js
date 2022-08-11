@@ -3,39 +3,45 @@ const app = Vue.createApp({
     return {
       searchString: '',
         inputTask:'',
+        showMessege:false,
         
         todos: [
-            {name:'shahed', status: false},
-            {name:'ahamed', status: false},
-            {name:'saiem', status: true},
-        ]
+          {name:"shahed",isComplete:false},
+          {name:"saiem",isComplete:false},
+          {name:"mohaimen",isComplete:true}
+        ],
      };
   },
   methods: {
-
     addTask() {
       if(this.inputTask == ''){
-         alert("task can't be null")
-          return
+        setTimeout(()=>{
+          this.showMessege = false
+        },2000)
+        this.showMessege = true
+        return
       }
-      const todo = { name: this.inputTask, status: false};
-      this.todos.unshift(todo);
-      this.inputTask = '';
+      this.todos.unshift({name:this.inputTask, isComplete:false})
+      this.inputTask=''
   },
   deleteTask(index) {
-    this.todos.splice(index, 1);
+    this.todos.splice(index, 3);
 },
-    changeStatus(){
-      this.todos.status = !this.todos.status
-    },
-  },
+
+changeStatus(){
+ this.filterItems.isComplete = !this.filterItems.isComplete
+}
+},
+
   computed: {
-    filteredTodos() {
-        return this.todos.filter(todo=> {
-            return todo.name.toLowerCase().includes(this.searchString) 
-          }
-        );
+    filterItems(){
+      return this.todos.filter(items=> items.name.toLowerCase().includes(this.searchString))
+    },
+
+    afterFilter(){
+      return this.filterItems.filter(items => items.isComplete)
     }
+
 }
 
 });

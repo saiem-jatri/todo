@@ -17,17 +17,31 @@
       <h1>Vue Course Goals</h1>
     </header>
     <section id="user-goals">
+      <p>Search your strings here!</p>
        <input type="text" v-model="searchString" >
       <h2>My course goals</h2>
       <input type="text" v-model="inputTask"/>
-      <button  @click="addTask" >Add Goal</button>
-
+      <button  @click="addTask">Add Goal</button>
+      <p style="font-weight: 600; color:brown">Todos After Filter</p>
       <ul>
-        <li v-for="(todo, index) in filteredTodos" :key="todo">
-          <input type="checkbox" v-model="todo.status">
+        <p v-if="showMessege" style="color: red;">input can't be null</p>
+        <li v-for="(todo,index) in filterItems" :key="todo" style="display: flex; justify-content:space-between"> 
+          <input type="checkbox" v-model="todo.isComplete"> 
           <span>{{todo.name}}</span>
-          <span>{{todo.status}}</span>
-          <button  @click="deleteTask(index)">Remove</button>
+          <span style="display: flex;">Status = {{todo.isComplete}} <div v-if="todo.isComplete === false" style="height: 15px; width:15px; background-color:red; border-radius:100%"></div>
+            <div v-if="todo.isComplete === true" style="height: 15px; width:15px; background-color:green; border-radius:100%"></div>
+          </span>
+          <div  @click="deleteTask(index)" style="color: white; height:20px; width: 20px; border-radius: 100%; background-color: brown; text-align: center;display: flex; justify-content:center;align-items: center;">x</div>
+        </li>
+      
+      </ul>
+
+      <p style="font-weight: 600; color:brown">Todos with true status</p>
+      {{afterFilter}}
+      <ul v-if="afterFilter.length != 0">
+        <li v-for="todo in afterFilter" :key="todo" style="display: flex; column-gap: 20px; justify-content: space-around;">
+         <span> {{todo.name}}</span>
+          <span>{{todo.isComplete}}</span>
         </li>
       </ul>
     </section>
