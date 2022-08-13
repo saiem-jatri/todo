@@ -35,7 +35,14 @@
         </li>
       
       </ul>
+{{totalPages}}
+      <!-- pagination -->
+      <div v-if="totalPages > 0" >
+        <span v-if="showPreviousLink" v-on:click="updatePage(currentPage - 1)" style="cursor: pointer;"> < </span>
+        {{currentPage + 1}} of {{ totalPages }}
+        <span v-if="showNextLink" v-on:click="updatePage(currentPage + 1)" style="cursor: pointer;"> > </span>
 
+      </div>
       <p style="font-weight: 600; color:brown">Todos with true status</p>
       {{afterFilter}}
       <ul v-if="afterFilter.length != 0">
