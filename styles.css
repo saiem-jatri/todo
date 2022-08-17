@@ -72,6 +72,17 @@ header {
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.26);
 }
 
+#user-goals select {
+  margin-left: 300px;
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid #ff0077;
+  background-color: #f04935;
+  color: white;
+  padding: 0.05rem 1rem;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.26);
+}
+
 #user-goals button:hover,
 #user-goals button:active {
   background-color: #ec3169;

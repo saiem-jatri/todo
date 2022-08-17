@@ -4,25 +4,25 @@ const app = Vue.createApp({
       searchString: '',
         inputTask:'',
         showMessege:false,
-        // nextId:14,
         currentPage:0,
         pageSize:3,
         visibleTodos:[],
+        sortBy:'name',
         
         todos: [
-          {name:"shahed",isComplete:false},
-          {name:"saiem",isComplete:false},
-          {name:"mohaimen",isComplete:true},
-          {name:"mohaimen",isComplete:true},
-          {name:"mohaimen",isComplete:false},
-          {name:"mohaimen",isComplete:true},
-          {name:"mohaimen",isComplete:true},
-          {name:"mohaimen",isComplete:true},
-          {name:"mohaimen",isComplete:false},
-          {name:"mohaimen",isComplete:true},
-          {name:"mohaimen",isComplete:false},
-          {name:"mohaimen",isComplete:true},
-          {name:"mohaimen",isComplete:false},
+          {name:"akil",isComplete:false},
+          {name:"khalid",isComplete:false},
+          {name:"shorif",isComplete:true},
+          {name:"emon",isComplete:true},
+          {name:"abid",isComplete:false},
+          {name:"salman",isComplete:true},
+          {name:"tarek",isComplete:true},
+          {name:"mehedi",isComplete:true},
+          {name:"nahid",isComplete:false},
+          {name:"imran",isComplete:true},
+          {name:"joyonto",isComplete:false},
+          {name:"ibrarim",isComplete:true},
+          {name:"masud",isComplete:false},
         ],
      };
   },
@@ -47,9 +47,7 @@ const app = Vue.createApp({
     this.updateVisibleTodos();
 },
 
-changeStatus(){
- this.filterItems.isComplete = !this.filterItems.isComplete
-},
+
     
 updatePage(pageNumber){
   this.currentPage = pageNumber;
@@ -57,8 +55,14 @@ updatePage(pageNumber){
 },
 
 updateVisibleTodos(){
-   this.visibleTodos = this.filterItems.slice(this.currentPage * this.pageSize, (this.currentPage * this.pageSize) + this.pageSize);
-   console.log(this.visibleTodos) 
+    let initialSortingTodos = this.todos.slice(this.currentPage * this.pageSize, (this.currentPage * this.pageSize) + this.pageSize)
+          .sort((a,b)=>{
+            if(a.name > b.name) return 1;
+            if(a.name < b.name) return -1;
+            return 0;
+          })
+   this.visibleTodos = initialSortingTodos;
+   console.log("heeeee", this.visibleTodos) 
    // if there are no visible todos, go back page
     if(this.visibleTodos.length == 0 && this.currentPage > 0){
       this.updatePage(this.currentPage - 1);
@@ -72,12 +76,14 @@ updateVisibleTodos(){
         return this.todos;
       } else {
         return this.todos.filter(items=> items.name.toLowerCase().includes(this.searchString))
-      }
-      
+      } 
     },
+    changeStatus(){
+     return this.filterItems.isComplete = !this.filterItems.isComplete
+     },
 
     afterFilter(){
-      return this.filterItems.filter(items =>{
+      return this.visibleTodos.filter(items =>{
         return items.isComplete === true;
       })
     },
@@ -90,7 +96,28 @@ updateVisibleTodos(){
 
     showNextLink(){
       return this.currentPage == (this.totalPages -1) ? false : true;
-    }
+    },
+},
+watch: {
+  sortBy(value) {
+    if(value === 'name'){
+      this.visibleTodos = this.visibleTodos.sort((a,b)=>{
+          if(a.name > b.name){
+            return 1;
+          }else{
+            return -1
+          }
+        })
+      }else if(value === 'status'){
+        this.visibleTodos = this.visibleTodos.sort((a)=>{
+          if(a.isComplete === true){
+            return -1
+          }else{
+            return 1
+          }
+        })
+      }
+  }
 }
 
 });
